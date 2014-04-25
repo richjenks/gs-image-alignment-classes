@@ -3,7 +3,7 @@
 /*
 Plugin Name: Image Alignment Classes
 Description: Adds classes to aligned images so theme developers can style them
-Version: 1.0
+Version: 1.1
 Author: Rich Jenks
 Author URI: http://richjenks.com
 */
@@ -23,8 +23,11 @@ register_plugin(
 	FALSE  //main function (administration)
 );
 
-add_action('theme-footer','add_js'); 
-function add_js() {
+// Queue jQuery
+queue_script('jquery', GSFRONT);
+
+// JS to add classes
+function image_alignment_classes_js() {
 	echo '<script>
 	$("img").filter(function() {
 		return $(this).css("float") == "left";
@@ -35,4 +38,5 @@ function add_js() {
 </script>';
 }
 
-?>
+// Add classes to footer
+add_action('theme-footer','image_alignment_classes_js'); 
