@@ -3,40 +3,33 @@
 /*
 Plugin Name: Image Alignment Classes
 Description: Adds classes to aligned images so theme developers can style them
-Version: 1.1
+Version: 2.0
 Author: Rich Jenks
 Author URI: http://richjenks.com
 */
 
-# get correct id for plugin
-$thisfile=basename(__FILE__, ".php");
-
-# register plugin
 register_plugin(
-	$thisfile, //Plugin id
-	'Image Alignment Classes', 	//Plugin name
-	'1.0', 		//Plugin version
-	'Rich Jenks',  //Plugin author
-	'http://richjenks.com', //author website
-	'Adds classes to aligned images so theme developers can style them', //Plugin description
-	FALSE, //page type - on which admin tab to display
-	FALSE  //main function (administration)
+	basename(__FILE__, '.php'), // ID
+	'Image Alignment Classes', // Name
+	'2.0', // Version
+	'Rich Jenks', // Author
+	'http://richjenks.com', // Website
+	'Adds classes to aligned images so theme developers can style them', // Description
+	FALSE, // Page
+	FALSE // Function
 );
 
-// Queue jQuery
-queue_script('jquery', GSFRONT);
-
-// JS to add classes
 function image_alignment_classes_js() {
 	echo '<script>
-	$("img").filter(function() {
-		return $(this).css("float") == "left";
-	}).addClass("img-left");
-	$("img").filter(function() {
-		return $(this).css("float") == "right";
-	}).addClass("img-right");
-</script>';
+		Array.from(document.getElementsByTagName("img")).forEach(img => {
+			if (img.style.float === "left") {
+				img.classList.add("img-left")
+			}
+			if (img.style.float === "right") {
+				img.classList.add("img-right")
+			}
+		})
+	</script>';
 }
 
-// Add classes to footer
-add_action('theme-footer','image_alignment_classes_js'); 
+add_action('theme-footer', 'image_alignment_classes_js'); 
